@@ -85,6 +85,7 @@ jobs:
         run: |
           helm dependencies update helm/numtracker
           helm package helm/numtracker --version ${STEPS_META_OUTPUTS_VERSION} --app-version ${STEPS_META_OUTPUTS_VERSION} -d /tmp/
-          helm push /tmp/numtracker-${STEPS_META_OUTPUTS_VERSION}.tgz oci://ghcr.io/diamondlightsource/charts
+          helm push /tmp/numtracker-${STEPS_META_OUTPUTS_VERSION}.tgz oci://ghcr.io/${REPO@L}/charts
         env:
           STEPS_META_OUTPUTS_VERSION: ${{ steps.meta.outputs.version }}
+          REPO: ${{ github.repository_owner }}
