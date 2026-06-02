@@ -35,14 +35,14 @@ jobs:
 
       - name: Set application version
         if: ${{ github.ref_type == 'tag' }}
-        run: sed -i 's/^version = ".*"$/version = "${STEPS_META_OUTPUTS_VERSION}"/' Cargo.toml
+        run: sed -i "s/^version = \".*\"$/version = \"${STEPS_META_OUTPUTS_VERSION}\"/" Cargo.toml
         env:
           STEPS_META_OUTPUTS_VERSION: ${{ steps.meta.outputs.version }}
 
       - name: Login to GHCR
         uses: docker/login-action@v4
         with:
-          registry: ghcr.io/diamondlightsource
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -52,8 +52,8 @@ jobs:
           DOCKER_BUILD_RECORD_UPLOAD: false
         with:
           context: .
-          cache-from: type=registry,ref=ghcr.io/diamondlightsource/numtracker:buildcache
-          cache-to: type=registry,ref=ghcr.io/diamondlightsource/numtracker:buildcache,mode=max
+          # cache-from: type=registry,ref=ghcr.io/diamondlightsource/numtracker:buildcache
+          # cache-to: type=registry,ref=ghcr.io/diamondlightsource/numtracker:buildcache,mode=max
           tags: numtracker-build-cache
           load: true
 
